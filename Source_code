@@ -1,0 +1,240 @@
+log = "Enter \n\
+
+     1. 'make' to enter key alue pairs \n\
+
+     2. 'sum' to calculate statistical values \n\
+
+     3. 'rcrd' to show records \n\
+
+     4. 'sell' to enter selling details \n\
+
+      *COST_PRICE stands for that of per peice \n\
+
+      *SELLING_PRICE stands for that of per peice \n\
+
+     'q' to quit from current scope \n\
+
+         "
+
+print(log)
+
+
+
+rcrd = {} # everything 
+
+
+
+# update record
+
+def make(rc = {}):
+
+
+
+    while True:
+
+
+
+        a = input(" ITEM_NAME: ")#press q when asked for key here
+
+        if a == 'q':
+
+            print()
+
+            break
+
+
+
+        rcrd[a] = [0, 0, 0]
+
+        
+
+        rc[a][0] = float(input ("COST_PRICE: "))      
+
+
+
+        rc[a][1] = float(input(" QUANTITY: ")) 
+
+
+
+        rc[a][2] = 0
+
+
+
+        print()
+
+
+
+    return rc # we can get all info from here
+
+
+
+
+
+
+
+# calculate statistical values 
+
+def sum(rc = {}):
+
+
+
+    total_value = 0
+
+    total_qty = 0
+
+    items = len(rc)
+
+    value_list = []
+
+
+
+    for key in rc:
+
+
+
+        value_list.append(rc[key][0]*rc[key][1])
+
+        total_qty += rc[key][1]
+
+        total_value += rc[key][0]*rc[key][1]
+
+
+
+
+
+    mean = total_value/total_qty
+
+    
+
+    # middle value in list
+
+    def m(b=0):
+
+        return (sorted(value_list))[int(items/2 +0.5) -1]
+
+    if items %2 == 0:
+
+        median = (m(-0.5) + m(0.5))/2
+
+    else:
+
+        median = m()
+
+
+
+    return [total_value, mean, median]
+
+
+
+
+
+def sell(rc = {}):
+
+
+
+    print("Enter your selling costs: \n")
+
+    a = 1
+
+
+
+    for key in rc:
+
+        print(str(a) +". "+ str.rjust(key, 8), end = ': ')     # "key: "
+
+        rc[key][2] = float(input())
+
+
+
+        a += 1
+
+    print("\nDone!\n")
+
+
+
+    return rc
+
+
+
+
+
+#----------main:
+
+
+
+while True:
+
+
+
+    cmd = str.lower(input("Command: "))
+
+    print()
+
+
+
+    if cmd == 'make':
+
+        rcrd = make(rcrd) # updating records
+
+
+
+    elif cmd == 'sum':
+
+        rtrn_vals = sum(rcrd)
+
+
+
+        def a(b):
+
+            return str.rjust("{:.2f}".format(rtrn_vals[b]), 10)
+
+        print(
+
+            " Total value:", a(0),
+
+          "\n  mean value:", a(1),
+
+          "\nmedian value:", a(2),'\n'
+
+            )
+
+
+
+    elif cmd == 'sell':
+
+        rcrd = sell(rcrd)
+
+
+
+    elif cmd == 'rcrd':
+
+
+
+        a = 1
+
+        for item in rcrd:         # print rcrd
+
+            cp = rcrd[item][0]*rcrd[item][1]
+
+            sp = rcrd[item][2]*rcrd[item][1]
+
+            p = "{:.2f}".format(sp - cp)
+
+            CP = "{:.2f}".format(cp)
+
+            
+
+            print(a,'.', str.rjust(item +"  "+ CP, 15) + str.rjust("  P: "+ p, 15))
+
+            a += 1
+
+        print("\n\'P\' stands for profit. ")
+
+        print()
+
+
+
+    elif cmd == 'q':
+
+        break
+
